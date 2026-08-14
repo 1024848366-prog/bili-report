@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>B站数据日报 · 鹏哥C语言 · 2026-08-14</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
     --bili-pink: #FB7299;
@@ -100,8 +101,8 @@
       <div class="badge-row"><span class="badge badge-up">▲ 179</span></div>
     </div>
     <div class="card">
-      <div class="label">关注数</div>
-      <div class="value">170</div>
+      <div class="label">关注数 <span class="tag">本账号关注他人</span></div>
+      <div class="value">170<span class="unit"> 人</span></div>
       <div class="badge-row"><span class="badge badge-zero">— 0</span></div>
     </div>
     <div class="card">
@@ -169,7 +170,7 @@
       <canvas id="viewTrendChart"></canvas>
     </div>
     <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
-      数据来自创作中心数据中心（官方按天播放增量），近30天柱状图，<b style="color:var(--accent);">红色高亮为近7日</b>。今日数据次日更新，Cookie 有效期内自动抓取。
+      数据来自创作中心数据中心（官方按天播放增量），近7日每日播放增量（至昨日）。今日数据次日更新，Cookie 有效期内自动抓取。
     </div>
   </div>
 
@@ -550,10 +551,20 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-14 14:16:58</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-14 14:29:41</div>
 </div>
 
 <script>
+// 图表直接显示数据（chartjs-plugin-datalabels）
+if (typeof ChartDataLabels !== 'undefined') {
+  Chart.register(ChartDataLabels);
+}
+function fmtNum(v) {
+  if (v === null || v === undefined || isNaN(v)) return '';
+  if (v >= 100000000) return (v/100000000).toFixed(2) + '亿';
+  if (v >= 10000) return (v/10000).toFixed(1) + '万';
+  return v.toLocaleString();
+}
 // 粉丝趋势
 const trendDates = ["2026-08-13", "2026-08-14"];
 const trendFollowers = [562626, 562805];
@@ -578,6 +589,11 @@ new Chart(document.getElementById('fanChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 10, weight: '600' }, color: '#FB7299',
+        formatter: v => fmtNum(v)
+      },
       tooltip: { callbacks: { label: ctx => '粉丝数: ' + ctx.parsed.y.toLocaleString() } }
     },
     scales: {
@@ -623,6 +639,11 @@ new Chart(document.getElementById('viewChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => fmtNum(v)
+      },
       tooltip: {
         callbacks: {
           label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString()
@@ -638,9 +659,9 @@ new Chart(document.getElementById('viewChart'), {
 });
 
 // 近7日播放趋势（创作中心官方按天增量，近7日高亮）
-const vtDates = ["2026-07-15", "2026-07-16", "2026-07-17", "2026-07-18", "2026-07-19", "2026-07-20", "2026-07-21", "2026-07-22", "2026-07-23", "2026-07-24", "2026-07-25", "2026-07-26", "2026-07-27", "2026-07-28", "2026-07-29", "2026-07-30", "2026-07-31", "2026-08-01", "2026-08-02", "2026-08-03", "2026-08-04", "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-08", "2026-08-09", "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13"];
-const vtPlays = [21203, 19127, 21074, 16487, 16774, 24744, 28104, 28229, 27791, 25590, 23240, 23954, 27980, 32603, 31546, 32573, 24659, 23909, 23967, 26748, 32524, 34577, 29971, 23145, 21424, 21487, 25633, 30386, 28317, 25753];
-const vtColors = vtPlays.map((_, i) => i >= vtPlays.length - 7 ? 'rgba(251,114,153,0.78)' : 'rgba(0,174,236,0.42)');
+const vtDates = ["2026-08-07", "2026-08-08", "2026-08-09", "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13"];
+const vtPlays = [23145, 21424, 21487, 25633, 30386, 28317, 25753];
+const vtColors = 'rgba(251,114,153,0.78)';
 new Chart(document.getElementById('viewTrendChart'), {
   type: 'bar',
   data: {
@@ -657,6 +678,11 @@ new Chart(document.getElementById('viewTrendChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 11, weight: '700' }, color: '#F25D8E',
+        formatter: v => fmtNum(v)
+      },
       tooltip: {
         callbacks: {
           label: ctx => '播放 ' + (ctx.parsed.y ?? 0).toLocaleString()
@@ -689,6 +715,11 @@ new Chart(document.getElementById('courseChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => fmtNum(v)
+      },
       tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString() } }
     },
     scales: {
@@ -717,6 +748,11 @@ new Chart(document.getElementById('courseViewTrendChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 11, weight: '700' }, color: '#F25D8E',
+        formatter: v => fmtNum(v)
+      },
       tooltip: {
         callbacks: {
           label: ctx => '播放 ' + (ctx.parsed.y ?? 0).toLocaleString()
@@ -763,7 +799,14 @@ new Chart(document.getElementById('courseIncomeChart'), {
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { position: 'top' } },
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#3d6dcc',
+        formatter: v => v == null ? '' : '¥' + Math.round(v).toLocaleString()
+      }
+    },
     scales: {
       y: { beginAtZero: true, ticks: { callback: v => '¥' + v.toLocaleString() } },
       x: { ticks: { maxTicksLimit: 15 } }
@@ -791,7 +834,14 @@ new Chart(document.getElementById('engChart'), {
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: { legend: { position: 'top' } },
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => v + '%'
+      }
+    },
     scales: { y: { ticks: { callback: v => v + '%' } } }
   }
 });
