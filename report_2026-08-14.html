@@ -49,7 +49,9 @@
 
   /* Sections */
   .section { background: var(--card); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-  .section h2 { font-size: 18px; margin-bottom: 18px; padding-left: 10px; border-left: 4px solid var(--bili-pink); }
+  .section h2 { font-size: 22px; margin-bottom: 18px; padding-left: 12px; border-left: 4px solid var(--bili-pink); display: flex; align-items: center; flex-wrap: wrap; gap: 10px; line-height: 1.5; }
+  .sec-num { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--bili-pink), #ff8fb1); color: #fff; font-size: 16px; font-weight: 800; box-shadow: 0 2px 6px rgba(251,114,153,0.35); }
+  .sub-num { display: inline-flex; align-items: center; justify-content: center; flex: none; min-width: 24px; height: 24px; border-radius: 6px; background: #e8f6ff; color: #0099e5; font-size: 13px; font-weight: 700; }
 
   /* Chart */
   .chart-wrap { position: relative; height: 320px; }
@@ -124,7 +126,7 @@
 
   <!-- 粉丝增长趋势 -->
   <div class="section">
-    <h2>📈 粉丝增长趋势（近2天）</h2>
+    <h2><span class="sec-num">1</span>📈 粉丝增长趋势（近2天）</h2>
     <div class="chart-wrap">
       <canvas id="fanChart"></canvas>
     </div>
@@ -132,7 +134,7 @@
 
   <!-- 每日播放量增长 -->
   <div class="section">
-    <h2>▶️ 每日播放量增长（近2天）</h2>
+    <h2><span class="sec-num">2</span>▶️ 每日播放量增长（近2天）</h2>
     <div class="chart-wrap" style="height:340px;">
       <canvas id="viewChart"></canvas>
     </div>
@@ -143,7 +145,7 @@
 
   <!-- 近7日播放趋势（创作中心官方统计） -->
   <div class="section">
-    <h2>🔥 近7日播放趋势 <span class="tag">创作中心官方统计 · 每日增量 · 至昨日</span></h2>
+    <h2><span class="sec-num">3</span>🔥 近7日播放趋势 <span class="tag">创作中心官方统计 · 每日增量 · 至昨日</span></h2>
     <div class="cards" style="margin-bottom:18px;">
       <div class="card">
         <div class="label">近7日播放量</div>
@@ -176,7 +178,7 @@
 
   <!-- 重点课程视频数据增长 -->
   <div class="section">
-    <h2>📚 重点课程数据增长 <span class="tag">C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研</span></h2>
+    <h2><span class="sec-num">4</span>📚 重点课程数据增长 <span class="tag">C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研</span></h2>
     <div class="cards" style="margin-bottom:18px;">
       <div class="card">
         <div class="label">课程播放量</div>
@@ -202,7 +204,7 @@
     <div class="chart-wrap" style="height:340px;">
       <canvas id="courseChart"></canvas>
     </div>
-    <h3 style="font-size:15px;margin:22px 0 12px;color:var(--text-main);">🔥 课程视频七日播放增长 <span class="tag">创作中心单视频官方统计 · 每日增量 · 至昨日</span></h3>
+    <h3 style="font-size:17px;margin:22px 0 12px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">4.1</span>🔥 课程视频七日播放增长 <span class="tag">创作中心单视频官方统计 · 每日增量 · 至昨日</span></h3>
     <div style="margin-bottom:12px;font-size:13px;color:var(--text-sub);line-height:1.7;">
       视频：C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研c语言指针专升本c语言计算机二级c语言嵌入式c语言全搞定！（BV17a7K64ELH）
     </div>
@@ -241,7 +243,7 @@
 
   <!-- 付费课程收益 -->
   <div class="section">
-    <h2>💰 付费课程收益 <span class="tag">B站创作中心 · 付费模块</span></h2>
+    <h2><span class="sec-num">5</span>💰 付费课程收益 <span class="tag">B站创作中心 · 付费模块</span></h2>
     <div class="cards" style="margin-bottom:18px;">
       <div class="card">
         <div class="label">本月销售额</div>
@@ -264,7 +266,7 @@
         <div class="badge-row"><span class="badge badge-zero">4 单</span></div>
       </div>
     </div>
-    <h3 style="font-size:15px;margin:0 0 10px;color:var(--text-main);">📊 本月课程售卖统计 <span class="tag">按订单聚合 · 本月 82 单 / ¥10,737.60</span></h3>
+    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.1</span>📊 本月课程售卖统计 <span class="tag">按订单聚合 · 本月 82 单 / ¥10,737.60</span></h3>
     <div style="overflow-x:auto;margin-bottom:18px;">
     <table>
       <thead>
@@ -311,7 +313,7 @@
     <div class="chart-wrap" style="height:320px;margin-bottom:18px;">
       <canvas id="courseIncomeChart"></canvas>
     </div>
-    <h3 style="font-size:15px;margin:0 0 10px;color:var(--text-main);">🧾 最近订单明细</h3>
+    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.2</span>🧾 最近订单明细</h3>
     <div style="overflow-x:auto;">
     <table>
       <thead>
@@ -407,7 +409,7 @@
 
   <!-- 视频表现排行 -->
   <div class="section">
-    <h2>🎬 视频表现 Top 10（按播放量）</h2>
+    <h2><span class="sec-num">6</span>🎬 视频表现 Top 10（按播放量）</h2>
     <div style="overflow-x:auto;">
     <table>
       <thead>
@@ -535,7 +537,7 @@
 
   <!-- 互动率分析 -->
   <div class="section">
-    <h2>💬 互动率分析 <span class="tag">Top10 视频加权平均 0.07%</span></h2>
+    <h2><span class="sec-num">7</span>💬 互动率分析 <span class="tag">Top10 视频加权平均 0.07%</span></h2>
     <div class="eng-grid">
       <div class="chart-wrap" style="height:360px;">
         <canvas id="engChart"></canvas>
@@ -551,7 +553,7 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-14 14:29:41</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-14 14:32:20</div>
 </div>
 
 <script>
