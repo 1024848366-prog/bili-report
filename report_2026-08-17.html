@@ -126,7 +126,7 @@
 
   <!-- 粉丝增长趋势 -->
   <div class="section">
-    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势（近5天）</h2>
+    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势 <span class="tag">每日新增粉丝 · 按快照日差</span></h2>
     <div class="chart-wrap">
       <canvas id="fanChart"></canvas>
     </div>
@@ -134,12 +134,12 @@
 
   <!-- 每日播放量增长 -->
   <div class="section">
-    <h2><span class="sec-num">2、</span>▶️ 每日播放量增长（近5天）</h2>
+    <h2><span class="sec-num">2、</span>▶️ 每日播放量增长 <span class="tag">官方每日增量 · 累计播放</span></h2>
     <div class="chart-wrap" style="height:340px;">
       <canvas id="viewChart"></canvas>
     </div>
     <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
-      柱状图为当日新增播放量，折线为账号累计播放量。今日新增播放 <b>2509.9万</b>。
+      柱状图为每日新增播放量（创作中心官方按天口径，至昨日），折线为账号累计播放量。今日官方增量次日更新。
     </div>
   </div>
 
@@ -183,17 +183,17 @@
       <div class="card">
         <div class="label">课程播放量</div>
         <div class="value">64.7万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 3.7万</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 3.8万</span></div>
       </div>
       <div class="card">
         <div class="label">课程点赞</div>
         <div class="value">1.6万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 502</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 506</span></div>
       </div>
       <div class="card">
         <div class="label">课程收藏</div>
         <div class="value">2.6万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 914</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 916</span></div>
       </div>
       <div class="card">
         <div class="label">互动率</div>
@@ -204,11 +204,11 @@
     <div class="chart-wrap" style="height:340px;">
       <canvas id="courseChart"></canvas>
     </div>
-    <h3 style="font-size:17px;margin:22px 0 12px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">4.1、</span>🔥 课程视频七日播放增长 <span class="tag">创作中心单视频官方统计 · 每日增量 · 至昨日</span></h3>
-    <div style="margin-bottom:12px;font-size:13px;color:var(--text-sub);line-height:1.7;">
+    <div style="margin-top:14px;font-size:13px;color:var(--text-sub);line-height:1.7;">
+      柱状=该视频每日新增播放，折线=每日新增点赞/收藏。官方单视频按天口径（至昨日），今日数据次日更新。<br>
       视频：C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研c语言指针专升本c语言计算机二级c语言嵌入式c语言全搞定！（BV17a7K64ELH）
     </div>
-    <div class="cards" style="margin-bottom:18px;">
+    <div class="cards" style="margin-top:22px;">
       <div class="card">
         <div class="label">七日播放增长</div>
         <div class="value">10.9万</div>
@@ -229,12 +229,6 @@
         <div class="value">8,685</div>
         <div class="badge-row"><span class="badge badge-zero">赞+藏+币+弹幕</span></div>
       </div>
-    </div>
-    <div class="chart-wrap" style="height:280px;">
-      <canvas id="courseViewTrendChart"></canvas>
-    </div>
-    <div style="margin-top:12px;font-size:13px;color:var(--text-sub);">
-      上表为该视频近7日（至昨日）每日播放/互动增量合计与逐日变化，官方口径，今日数据次日更新。
     </div>
   </div>
 
@@ -266,7 +260,7 @@
         <div class="badge-row"><span class="badge badge-zero">9 单</span></div>
       </div>
     </div>
-    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.1、</span>📊 本月课程售卖统计 <span class="tag">按订单聚合 · 本月 100 单 / ¥11,973.40</span></h3>
+    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.1、</span>📊 本月课程售卖统计 <span class="tag">每日销售额 · 本月 100 单 / ¥11,973.40</span></h3>
     <div style="overflow-x:auto;margin-bottom:18px;">
     <table>
       <thead>
@@ -312,6 +306,9 @@
     </div>
     <div class="chart-wrap" style="height:320px;margin-bottom:18px;">
       <canvas id="courseIncomeChart"></canvas>
+    </div>
+    <div style="margin-bottom:18px;font-size:13px;color:var(--text-sub);">
+      柱状图为本月每日课程销售额（按订单成交日期聚合）。
     </div>
     <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.2、</span>🧾 最近订单明细</h3>
     <div style="overflow-x:auto;">
@@ -472,7 +469,7 @@
           <td class="num">7,589</td>
           <td class="num">5,441</td>
           <td class="num">1.9万</td>
-          <td class="num">2,484</td>
+          <td class="num">2,485</td>
           <td class="num">1,148</td>
           <td class="num date">2025-11-10</td>
         </tr>
@@ -484,7 +481,7 @@
           <td class="num">1.1万</td>
           <td class="num">2.6万</td>
           <td class="num">2,119</td>
-          <td class="num">4,893</td>
+          <td class="num">4,897</td>
           <td class="num date">2026-06-23</td>
         </tr>
         <tr>
@@ -553,7 +550,7 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 14:17:21</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 14:27:48</div>
 </div>
 
 <script>
@@ -567,23 +564,18 @@ function fmtNum(v) {
   if (v >= 10000) return (v/10000).toFixed(1) + '万';
   return v.toLocaleString();
 }
-// 粉丝趋势
+// 粉丝趋势（每日新增粉丝）
 const trendDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17"];
-const trendFollowers = [562626, 562805, 563100, 563384, 563432];
+const trendFanDaily = [null, 179, 295, 284, 51];
 new Chart(document.getElementById('fanChart'), {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: trendDates,
     datasets: [{
-      label: '粉丝数',
-      data: trendFollowers,
-      borderColor: '#FB7299',
-      backgroundColor: 'rgba(251,114,153,0.12)',
-      fill: true,
-      tension: 0.3,
-      pointRadius: 3,
-      spanGaps: true,
-      pointBackgroundColor: '#FB7299',
+      label: '每日新增粉丝',
+      data: trendFanDaily,
+      backgroundColor: 'rgba(251,114,153,0.70)',
+      borderRadius: 3,
     }]
   },
   options: {
@@ -593,28 +585,28 @@ new Chart(document.getElementById('fanChart'), {
       legend: { display: false },
       datalabels: {
         display: 'auto', anchor: 'end', align: 'top',
-        font: { size: 10, weight: '600' }, color: '#FB7299',
-        formatter: v => fmtNum(v)
+        font: { size: 11, weight: '700' }, color: '#F25D8E',
+        formatter: v => v == null ? '' : '+' + v.toLocaleString()
       },
-      tooltip: { callbacks: { label: ctx => '粉丝数: ' + ctx.parsed.y.toLocaleString() } }
+      tooltip: { callbacks: { label: ctx => '每日新增粉丝: +' + (ctx.parsed.y ?? 0).toLocaleString() } }
     },
     scales: {
-      y: { beginAtZero: false, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      y: { beginAtZero: true, ticks: { callback: v => v.toLocaleString() } },
       x: { ticks: { maxTicksLimit: 15 } }
     }
   }
 });
 
-// 每日播放量增长（柱状=日增量，折线=累计播放）
-const trendViews = [25019660, 25035688, 0, 0, 25098908];
-const trendDaily = [null, 16028, 0, 0, 25098908];
+// 每日播放量增长（柱状=官方每日增量，折线=累计播放）
+const trendViews = [25019660, 25035688, null, null, 25099123];
+const trendDaily = [25753, 23439, 21754, 20783, null];
 new Chart(document.getElementById('viewChart'), {
   data: {
     labels: trendDates,
     datasets: [
       {
         type: 'bar',
-        label: '当日新增播放',
+        label: '当日新增播放(官方)',
         data: trendDaily,
         backgroundColor: 'rgba(0,174,236,0.55)',
         borderRadius: 3,
@@ -698,18 +690,18 @@ new Chart(document.getElementById('viewTrendChart'), {
   }
 });
 
-// 重点课程视频趋势（播放/点赞/收藏）
-const coursePlay = [599413, 609129, null, null, 646596];
-const courseLike = [15005, 15128, null, null, 15630];
-const courseFav = [24656, 24886, null, null, 25800];
+// 重点课程每日增长（柱状=每日播放增量，折线=每日点赞/收藏增量）
+const courseDailyDates = ["2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16"];
+const courseDailyPlay = [15808, 20281, 18805, 16431, 13247, 12398, 12178];
+const courseDailyLike = [314, 503, 488, 341, 172, 172, 150];
+const courseDailyFav = [520, 835, 747, 550, 321, 307, 279];
 new Chart(document.getElementById('courseChart'), {
-  type: 'line',
   data: {
-    labels: trendDates,
+    labels: courseDailyDates,
     datasets: [
-      { label: '播放量', data: coursePlay, borderColor: '#FB7299', backgroundColor: 'rgba(251,114,153,0.12)', fill: true, tension: 0.3, pointRadius: 3, spanGaps: true },
-      { label: '点赞', data: courseLike, borderColor: '#FAC64B', tension: 0.3, pointRadius: 3, spanGaps: true },
-      { label: '收藏', data: courseFav, borderColor: '#00AEEC', tension: 0.3, pointRadius: 3, spanGaps: true },
+      { type: 'bar', label: '每日播放增量', data: courseDailyPlay, backgroundColor: 'rgba(251,114,153,0.70)', borderRadius: 3, yAxisID: 'y', order: 2 },
+      { type: 'line', label: '每日点赞增量', data: courseDailyLike, borderColor: '#FAC64B', tension: 0.3, pointRadius: 3, spanGaps: true, yAxisID: 'y1', order: 1 },
+      { type: 'line', label: '每日收藏增量', data: courseDailyFav, borderColor: '#00AEEC', tension: 0.3, pointRadius: 3, spanGaps: true, yAxisID: 'y1', order: 1 },
     ]
   },
   options: {
@@ -722,26 +714,32 @@ new Chart(document.getElementById('courseChart'), {
         font: { size: 9, weight: '600' }, color: '#61666d',
         formatter: v => fmtNum(v)
       },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString() } }
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString()
+        }
+      }
     },
     scales: {
-      y: { ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      y: { position: 'left', ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => v.toLocaleString() } },
       x: { ticks: { maxTicksLimit: 15 } }
     }
   }
 });
 
-// 课程视频近7日播放量（创作中心单视频官方按天增量）
-const cvtDates = ["2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16"];
-const cvtPlays = [15808, 20281, 18805, 16431, 13247, 12398, 12178];
-new Chart(document.getElementById('courseViewTrendChart'), {
+// 付费课程每日销售额（柱状=每日销售额）
+const courseIncDates = ["2026-08-01", "2026-08-02", "2026-08-03", "2026-08-04", "2026-08-05", "2026-08-06", "2026-08-07", "2026-08-08", "2026-08-09", "2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16"];
+const courseIncAmounts = [617.3, 617.9, 2937.6, 577.7, 458.5, 239.2, 498.5, 378.7, 2838.3, 458.5, 278.8, 457.9, 318.8, 258.9, 378.9, 657.9];
+const courseIncOrders = [7, 9, 7, 7, 7, 4, 7, 5, 8, 7, 4, 5, 4, 3, 7, 9];
+new Chart(document.getElementById('courseIncomeChart'), {
   type: 'bar',
   data: {
-    labels: cvtDates,
+    labels: courseIncDates,
     datasets: [{
-      label: '每日播放增量',
-      data: cvtPlays,
-      backgroundColor: 'rgba(251,114,153,0.78)',
+      label: '每日销售额(元)',
+      data: courseIncAmounts,
+      backgroundColor: 'rgba(250,198,75,0.75)',
       borderRadius: 3,
     }]
   },
@@ -752,61 +750,16 @@ new Chart(document.getElementById('courseViewTrendChart'), {
       legend: { display: false },
       datalabels: {
         display: 'auto', anchor: 'end', align: 'top',
-        font: { size: 11, weight: '700' }, color: '#F25D8E',
-        formatter: v => fmtNum(v)
+        font: { size: 9, weight: '600' }, color: '#b8860b',
+        formatter: v => v == null ? '' : '¥' + Math.round(v).toLocaleString()
       },
       tooltip: {
         callbacks: {
-          label: ctx => '播放 ' + (ctx.parsed.y ?? 0).toLocaleString()
+          label: ctx => {
+            const i = ctx.dataIndex;
+            return '销售额: ¥' + (ctx.parsed.y ?? 0).toLocaleString() + '  ·  ' + (courseIncOrders[i] ?? 0) + ' 单';
+          }
         }
-      }
-    },
-    scales: {
-      y: { beginAtZero: true, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
-      x: { ticks: { maxTicksLimit: 7 } }
-    }
-  }
-});
-
-// 付费课程收益趋势（柱状=本月销售额，折线=近7日销售额）
-const courseIncDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17"];
-const courseIncMonth = [10518.3, 10737.6, 11315.5, 11973.4, 11973.4];
-const courseIncWeek = [5149.9, 5229.5, 4989.9, 4990.1, 2809.7];
-new Chart(document.getElementById('courseIncomeChart'), {
-  data: {
-    labels: courseIncDates,
-    datasets: [
-      {
-        type: 'bar',
-        label: '本月销售额(元)',
-        data: courseIncMonth,
-        backgroundColor: 'rgba(250,198,75,0.70)',
-        borderRadius: 3,
-        order: 2,
-      },
-      {
-        type: 'line',
-        label: '近7日销售额(元)',
-        data: courseIncWeek,
-        borderColor: '#3d6dcc',
-        backgroundColor: 'rgba(61,109,204,0.08)',
-        fill: true,
-        tension: 0.3,
-        pointRadius: 3,
-        spanGaps: true,
-        order: 1,
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'top' },
-      datalabels: {
-        display: 'auto', anchor: 'end', align: 'top',
-        font: { size: 9, weight: '600' }, color: '#3d6dcc',
-        formatter: v => v == null ? '' : '¥' + Math.round(v).toLocaleString()
       }
     },
     scales: {
