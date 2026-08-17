@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B站数据日报 · 鹏哥C语言 · 2026-08-17</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root {
+    --bili-pink: #FB7299;
+    --bili-pink-dark: #F25D8E;
+    --bili-blue: #00AEEC;
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --text: #18191c;
+    --text-sub: #61666d;
+    --border: #e3e5e7;
+    --up: #e74c3c;
+    --down: #27ae60;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, var(--bili-pink) 0%, #FF9DB8 100%); border-radius: 16px; padding: 32px; color: #fff; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .header::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; background: rgba(255,255,255,0.12); border-radius: 50%; }
+  .user-row { display: flex; align-items: center; gap: 18px; position: relative; z-index: 1; }
+  .avatar { width: 84px; height: 84px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.8); object-fit: cover; background: #fff; }
+  .user-meta h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  .user-meta .uid { font-size: 13px; opacity: 0.85; }
+  .user-meta .sign { font-size: 13px; opacity: 0.9; margin-top: 6px; max-width: 600px; }
+  .date-chip { position: absolute; right: 24px; top: 24px; background: rgba(255,255,255,0.22); padding: 8px 16px; border-radius: 20px; font-size: 13px; z-index: 1; }
+
+  /* Summary cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card .label { font-size: 13px; color: var(--text-sub); margin-bottom: 8px; }
+  .card .value { font-size: 28px; font-weight: 700; }
+  .card .value .unit { font-size: 14px; font-weight: 400; color: var(--text-sub); }
+  .card .badge-row { margin-top: 10px; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-up { background: #fdecea; color: var(--up); }
+  .badge-down { background: #e8f8ef; color: var(--down); }
+  .badge-zero { background: #f1f2f3; color: var(--text-sub); }
+  .badge-na { background: #eef1f8; color: #8a919f; }
+
+  /* Sections */
+  .section { background: var(--card); border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 22px; margin-bottom: 18px; padding-left: 12px; border-left: 4px solid var(--bili-pink); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; line-height: 1.5; }
+  .sec-num { color: var(--bili-pink-dark); font-weight: 800; font-size: 24px; }
+  .sub-num { color: #0099e5; font-weight: 800; font-size: 17px; }
+
+  /* Chart */
+  .chart-wrap { position: relative; height: 320px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #fafbfc; color: var(--text-sub); font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f1f2; }
+  tbody tr:hover { background: #fafbfc; }
+  td.rank { font-weight: 700; color: var(--bili-pink); width: 36px; }
+  td.title { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  td.title a { color: var(--text); text-decoration: none; }
+  td.title a:hover { color: var(--bili-pink); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.date { color: var(--text-sub); }
+
+  /* Engagement grid */
+  .eng-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .eng-grid { grid-template-columns: 1fr; } }
+
+  /* Footer */
+  .footer { text-align: center; color: var(--text-sub); font-size: 12px; padding: 16px 0 40px; }
+  .tag { display: inline-block; background: #f0f6fc; color: #3d6dcc; border-radius: 4px; padding: 1px 6px; font-size: 11px; margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <div class="date-chip">📅 2026-08-17</div>
+    <div class="user-row">
+      <img class="avatar" src="https://i1.hdslb.com/bfs/face/bce04ad3ce413426b7b2a524dcbe8c3a550e8eac.jpg" alt="avatar" onerror="this.style.visibility='hidden'">
+      <div class="user-meta">
+        <h1>鹏哥C语言</h1>
+        <div class="uid">UID: 456828781</div>
+        <div class="sign">鹏哥C语言一对一答疑课程，在课堂栏目</div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- 汇总卡片 -->
+  <div class="cards">
+    <div class="card">
+      <div class="label">粉丝数</div>
+      <div class="value">56.3万</div>
+      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+    </div>
+    <div class="card">
+      <div class="label">关注数 <span class="tag">本账号关注他人</span></div>
+      <div class="value">170<span class="unit"> 人</span></div>
+      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+    </div>
+    <div class="card">
+      <div class="label">累计播放量</div>
+      <div class="value">2509.7万</div>
+      <div class="badge-row"><span class="badge badge-up">▲ 2509.7万</span></div>
+    </div>
+    <div class="card">
+      <div class="label">累计获赞</div>
+      <div class="value">48.4万</div>
+      <div class="badge-row"><span class="badge badge-up">▲ 48.4万</span></div>
+    </div>
+    <div class="card">
+      <div class="label">发布视频数</div>
+      <div class="value">193<span class="unit"> 个</span></div>
+      <div class="badge-row"><span class="badge badge-zero">累计收藏 78.2万</span></div>
+    </div>
+  </div>
+
+  <!-- 粉丝增长趋势 -->
+  <div class="section">
+    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势（近3天）</h2>
+    <div class="chart-wrap">
+      <canvas id="fanChart"></canvas>
+    </div>
+  </div>
+
+  <!-- 每日播放量增长 -->
+  <div class="section">
+    <h2><span class="sec-num">2、</span>▶️ 每日播放量增长（近3天）</h2>
+    <div class="chart-wrap" style="height:340px;">
+      <canvas id="viewChart"></canvas>
+    </div>
+    <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
+      柱状图为当日新增播放量，折线为账号累计播放量。今日新增播放 <b>6.2万</b>。
+    </div>
+  </div>
+
+  <!-- 近7日播放趋势（创作中心官方统计） -->
+  <div class="section">
+    <h2><span class="sec-num">3、</span>🔥 近7日播放趋势 <span class="tag">创作中心官方统计 · 每日增量 · 至昨日</span></h2>
+    <div class="cards" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="label">近7日播放量</div>
+        <div class="value">17.6万</div>
+        <div class="badge-row"><span class="badge badge-zero">日均 2.5万</span></div>
+      </div>
+      <div class="card">
+        <div class="label">昨日播放量</div>
+        <div class="value">2.1万</div>
+        <div class="badge-row"><span class="badge badge-zero">官方按天口径</span></div>
+      </div>
+      <div class="card">
+        <div class="label">7日播放峰值</div>
+        <div class="value">3.0万</div>
+        <div class="badge-row"><span class="badge badge-up">2026-08-11</span></div>
+      </div>
+      <div class="card">
+        <div class="label">近7日互动量</div>
+        <div class="value">1.3万</div>
+        <div class="badge-row"><span class="badge badge-zero">赞+藏+币+评+弹幕</span></div>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:300px;">
+      <canvas id="viewTrendChart"></canvas>
+    </div>
+    <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
+      数据来自创作中心数据中心（官方按天播放增量），近7日每日播放增量（至昨日）。今日数据次日更新，Cookie 有效期内自动抓取。
+    </div>
+  </div>
+
+  <!-- 重点课程视频数据增长 -->
+  <div class="section">
+    <h2><span class="sec-num">4、</span>📚 重点课程数据增长 <span class="tag">C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研</span></h2>
+    <div class="cards" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="label">课程播放量</div>
+        <div class="value">64.6万</div>
+        <div class="badge-row"><span class="badge badge-up">▲ 3.6万</span></div>
+      </div>
+      <div class="card">
+        <div class="label">课程点赞</div>
+        <div class="value">1.6万</div>
+        <div class="badge-row"><span class="badge badge-up">▲ 486</span></div>
+      </div>
+      <div class="card">
+        <div class="label">课程收藏</div>
+        <div class="value">2.6万</div>
+        <div class="badge-row"><span class="badge badge-up">▲ 893</span></div>
+      </div>
+      <div class="card">
+        <div class="label">互动率</div>
+        <div class="value">6.41%</div>
+        <div class="badge-row"><span class="badge badge-zero">(赞+藏) / 播放</span></div>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:340px;">
+      <canvas id="courseChart"></canvas>
+    </div>
+    <h3 style="font-size:17px;margin:22px 0 12px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">4.1、</span>🔥 课程视频七日播放增长 <span class="tag">创作中心单视频官方统计 · 每日增量 · 至昨日</span></h3>
+    <div style="margin-bottom:12px;font-size:13px;color:var(--text-sub);line-height:1.7;">
+      视频：C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基础教程c语言期末考研c语言指针专升本c语言计算机二级c语言嵌入式c语言全搞定！（BV17a7K64ELH）
+    </div>
+    <div class="cards" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="label">七日播放增长</div>
+        <div class="value">10.9万</div>
+        <div class="badge-row"><span class="badge badge-zero">日均 1.6万</span></div>
+      </div>
+      <div class="card">
+        <div class="label">昨日播放增量</div>
+        <div class="value">1.2万</div>
+        <div class="badge-row"><span class="badge badge-zero">官方按天口径</span></div>
+      </div>
+      <div class="card">
+        <div class="label">七日播放峰值</div>
+        <div class="value">2.0万</div>
+        <div class="badge-row"><span class="badge badge-up">2026-08-11</span></div>
+      </div>
+      <div class="card">
+        <div class="label">七日互动量</div>
+        <div class="value">8,685</div>
+        <div class="badge-row"><span class="badge badge-zero">赞+藏+币+弹幕</span></div>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:280px;">
+      <canvas id="courseViewTrendChart"></canvas>
+    </div>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-sub);">
+      上表为该视频近7日（至昨日）每日播放/互动增量合计与逐日变化，官方口径，今日数据次日更新。
+    </div>
+  </div>
+
+
+  
+
+  <!-- 付费课程收益 -->
+  <div class="section">
+    <h2><span class="sec-num">5、</span>💰 付费课程收益 <span class="tag">B站创作中心 · 付费模块</span></h2>
+    <div class="cards" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="label">本月销售额</div>
+        <div class="value">¥11,973.40</div>
+        <div class="badge-row"><span class="badge badge-zero">100 单</span></div>
+      </div>
+      <div class="card">
+        <div class="label">近7日销售额</div>
+        <div class="value">¥2,809.70</div>
+        <div class="badge-row"><span class="badge badge-zero">39 单</span></div>
+      </div>
+      <div class="card">
+        <div class="label">今日销售额</div>
+        <div class="value">¥0.00</div>
+        <div class="badge-row"><span class="badge badge-zero">0 单</span></div>
+      </div>
+      <div class="card">
+        <div class="label">昨日销售额</div>
+        <div class="value">¥657.90</div>
+        <div class="badge-row"><span class="badge badge-zero">9 单</span></div>
+      </div>
+    </div>
+    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.1、</span>📊 本月课程售卖统计 <span class="tag">按订单聚合 · 本月 100 单 / ¥11,973.40</span></h3>
+    <div style="overflow-x:auto;margin-bottom:18px;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>课程名称</th><th style="text-align:right">客单价</th>
+          <th style="text-align:right">售卖单量</th><th style="text-align:right">销售额</th><th style="text-align:right">销售占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td class="num">52 单</td>
+          <td class="num">¥3,114.80</td>
+          <td class="num">26.0%</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="title">鹏哥C语言零基础训练营</td>
+          <td class="num">¥99.50</td>
+          <td class="num">37 单</td>
+          <td class="num">¥3,681.50</td>
+          <td class="num">30.7%</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="title">数据结构零基础训练营</td>
+          <td class="num">¥19.90</td>
+          <td class="num">9 单</td>
+          <td class="num">¥179.10</td>
+          <td class="num">1.5%</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td class="title">算法竞赛从零基础到获奖【冲刺ACM奖牌】</td>
+          <td class="num">¥2,499.00</td>
+          <td class="num">2 单</td>
+          <td class="num">¥4,998.00</td>
+          <td class="num">41.7%</td>
+        </tr></tbody>
+    </table>
+    </div>
+    <div class="chart-wrap" style="height:320px;margin-bottom:18px;">
+      <canvas id="courseIncomeChart"></canvas>
+    </div>
+    <h3 style="font-size:17px;margin:0 0 10px;color:var(--text-main);display:flex;align-items:center;flex-wrap:wrap;gap:8px;"><span class="sub-num">5.2、</span>🧾 最近订单明细</h3>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>课程名称</th><th style="text-align:right">实付金额</th>
+          <th>支付渠道</th><th>成交时间</th><th>优惠券</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 23:58:50</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 18:16:29</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="title">鹏哥C语言零基础训练营</td>
+          <td class="num">¥99.50</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 16:46:28</td>
+          <td class="title">【限时优惠】仅《鹏哥C语言零基础训练营》课程使用</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>B币</td>
+          <td class="num date">2026-08-16 15:12:18</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">5</td>
+          <td class="title">鹏哥C语言零基础训练营</td>
+          <td class="num">¥99.50</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 14:22:11</td>
+          <td class="title">【限时优惠】仅《鹏哥C语言零基础训练营》课程使用</td>
+        </tr>
+        <tr>
+          <td class="rank">6</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 12:38:13</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">7</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 12:30:40</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">8</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>微信</td>
+          <td class="num date">2026-08-16 09:43:37</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr>
+        <tr>
+          <td class="rank">9</td>
+          <td class="title">鹏哥C语言零基础训练营</td>
+          <td class="num">¥99.50</td>
+          <td>支付宝</td>
+          <td class="num date">2026-08-16 00:10:50</td>
+          <td class="title">【限时优惠】仅《鹏哥C语言零基础训练营》课程使用</td>
+        </tr>
+        <tr>
+          <td class="rank">10</td>
+          <td class="title">从C语言到AI编程实践</td>
+          <td class="num">¥59.90</td>
+          <td>支付宝</td>
+          <td class="num date">2026-08-15 22:04:15</td>
+          <td class="title">从C语言到AI编程实践 满199.0减139.1</td>
+        </tr></tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- 视频表现排行 -->
+  <div class="section">
+    <h2><span class="sec-num">6、</span>🎬 视频表现 Top 10（按播放量）</h2>
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>标题</th><th style="text-align:right">播放</th>
+          <th style="text-align:right">点赞</th><th style="text-align:right">投币</th>
+          <th style="text-align:right">收藏</th><th style="text-align:right">分享</th>
+          <th style="text-align:right">评论</th><th>发布时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1Vm4y1r7jY" target="_blank">C语言程序设计从入门到进阶【比特鹏哥c语言2024完整版视频教程】（c语言基础入</a></td>
+          <td class="num">1332.7万</td>
+          <td class="num">25.7万</td>
+          <td class="num">21.8万</td>
+          <td class="num">43.8万</td>
+          <td class="num">9.2万</td>
+          <td class="num">2.2万</td>
+          <td class="num date">2023-03-27</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1U44y1y7xN" target="_blank">C语言从入门到精通（鹏哥带你C语言从入门到精通，谭浩强C语言教程C语言程序设计C</a></td>
+          <td class="num">212.7万</td>
+          <td class="num">3.2万</td>
+          <td class="num">3.0万</td>
+          <td class="num">5.8万</td>
+          <td class="num">1.7万</td>
+          <td class="num">4,121</td>
+          <td class="num date">2021-08-19</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1oi4y1g7CF" target="_blank">C语言从入门到进阶（C语言入门搞定C语言C语言视频教程C语言入门到进阶C语言教程</a></td>
+          <td class="num">156.3万</td>
+          <td class="num">3.2万</td>
+          <td class="num">3.3万</td>
+          <td class="num">5.0万</td>
+          <td class="num">1.1万</td>
+          <td class="num">3,806</td>
+          <td class="num date">2020-07-06</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV11R4y1s7jz" target="_blank">VS2022安装使用教程，VS2022使用教程Visual Studio 202</a></td>
+          <td class="num">135.1万</td>
+          <td class="num">3.2万</td>
+          <td class="num">1.7万</td>
+          <td class="num">2.7万</td>
+          <td class="num">2.5万</td>
+          <td class="num">3,999</td>
+          <td class="num date">2021-12-07</td>
+        </tr>
+        <tr>
+          <td class="rank">5</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1Wx2TBrEEp" target="_blank">ACM蓝桥杯算法课程竞赛课程从入门到获奖ACM竞赛怎么准备蓝桥杯C语言ACM校赛</a></td>
+          <td class="num">77.0万</td>
+          <td class="num">7,587</td>
+          <td class="num">5,441</td>
+          <td class="num">1.9万</td>
+          <td class="num">2,484</td>
+          <td class="num">1,148</td>
+          <td class="num date">2025-11-10</td>
+        </tr>
+        <tr>
+          <td class="rank">6</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV17a7K64ELH" target="_blank">C语言程序设计从入门到进阶【鹏哥C语言2026最新官方完整版】c语言基础入门零基</a></td>
+          <td class="num">64.6万</td>
+          <td class="num">1.6万</td>
+          <td class="num">1.1万</td>
+          <td class="num">2.6万</td>
+          <td class="num">2,115</td>
+          <td class="num">4,891</td>
+          <td class="num date">2026-06-23</td>
+        </tr>
+        <tr>
+          <td class="rank">7</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1hf4y1W7yT" target="_blank">gitee(码云)的注册和代码提交【手把手】</a></td>
+          <td class="num">57.0万</td>
+          <td class="num">1.2万</td>
+          <td class="num">8,975</td>
+          <td class="num">2.1万</td>
+          <td class="num">6,508</td>
+          <td class="num">1,461</td>
+          <td class="num date">2021-04-03</td>
+        </tr>
+        <tr>
+          <td class="rank">8</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1kC411G7CS" target="_blank">Dev C++下载安装和使用dev c++ dev C++ 教程DevC++ 安</a></td>
+          <td class="num">56.2万</td>
+          <td class="num">1.3万</td>
+          <td class="num">7,237</td>
+          <td class="num">1.4万</td>
+          <td class="num">5,378</td>
+          <td class="num">1,267</td>
+          <td class="num date">2024-04-12</td>
+        </tr>
+        <tr>
+          <td class="rank">9</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1ih411y7gN" target="_blank">谭浩强C语言程序设计第五版课后答案详细讲解（C语言考研C语言专升本C语言学习，C</a></td>
+          <td class="num">53.6万</td>
+          <td class="num">9,552</td>
+          <td class="num">7,422</td>
+          <td class="num">2.5万</td>
+          <td class="num">3,903</td>
+          <td class="num">613</td>
+          <td class="num date">2021-01-25</td>
+        </tr>
+        <tr>
+          <td class="rank">10</td>
+          <td class="title"><a href="https://www.bilibili.com/video/BV1ur4y1c7d2" target="_blank">鹏哥带你刷130道C语言OJ题（C语言练习C语言作业C语言130题C语言题目C语</a></td>
+          <td class="num">41.6万</td>
+          <td class="num">8,906</td>
+          <td class="num">5,452</td>
+          <td class="num">2.4万</td>
+          <td class="num">1,151</td>
+          <td class="num">323</td>
+          <td class="num date">2020-12-03</td>
+        </tr></tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- 互动率分析 -->
+  <div class="section">
+    <h2><span class="sec-num">7、</span>💬 互动率分析 <span class="tag">Top10 视频加权平均 0.07%</span></h2>
+    <div class="eng-grid">
+      <div class="chart-wrap" style="height:360px;">
+        <canvas id="engChart"></canvas>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>视频</th><th style="text-align:right">播放</th><th style="text-align:right">赞率</th><th style="text-align:right">币率</th><th style="text-align:right">藏率</th><th style="text-align:right">评率</th></tr></thead>
+          <tbody>
+            <tr><td class="title">C语言程序设计从入门到进阶【比特鹏哥</td><td class="num">1332.7万</td><td class="num">1.93%</td><td class="num">1.63%</td><td class="num">3.28%</td><td class="num">0.17%</td></tr><tr><td class="title">C语言从入门到精通（鹏哥带你C语言从</td><td class="num">212.7万</td><td class="num">1.51%</td><td class="num">1.40%</td><td class="num">2.74%</td><td class="num">0.19%</td></tr><tr><td class="title">C语言从入门到进阶（C语言入门搞定C</td><td class="num">156.3万</td><td class="num">2.02%</td><td class="num">2.14%</td><td class="num">3.20%</td><td class="num">0.24%</td></tr><tr><td class="title">VS2022安装使用教程，VS202</td><td class="num">135.1万</td><td class="num">2.34%</td><td class="num">1.25%</td><td class="num">2.03%</td><td class="num">0.30%</td></tr><tr><td class="title">ACM蓝桥杯算法课程竞赛课程从入门到</td><td class="num">77.0万</td><td class="num">0.98%</td><td class="num">0.71%</td><td class="num">2.52%</td><td class="num">0.15%</td></tr><tr><td class="title">C语言程序设计从入门到进阶【鹏哥C语</td><td class="num">64.6万</td><td class="num">2.42%</td><td class="num">1.71%</td><td class="num">3.99%</td><td class="num">0.76%</td></tr><tr><td class="title">gitee(码云)的注册和代码提交【</td><td class="num">57.0万</td><td class="num">2.10%</td><td class="num">1.57%</td><td class="num">3.60%</td><td class="num">0.26%</td></tr><tr><td class="title">Dev C++下载安装和使用dev </td><td class="num">56.2万</td><td class="num">2.23%</td><td class="num">1.29%</td><td class="num">2.52%</td><td class="num">0.23%</td></tr><tr><td class="title">谭浩强C语言程序设计第五版课后答案详</td><td class="num">53.6万</td><td class="num">1.78%</td><td class="num">1.38%</td><td class="num">4.62%</td><td class="num">0.11%</td></tr><tr><td class="title">鹏哥带你刷130道C语言OJ题（C语</td><td class="num">41.6万</td><td class="num">2.14%</td><td class="num">1.31%</td><td class="num">5.73%</td><td class="num">0.08%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 12:26:11</div>
+</div>
+
+<script>
+// 图表直接显示数据（chartjs-plugin-datalabels）
+if (typeof ChartDataLabels !== 'undefined') {
+  Chart.register(ChartDataLabels);
+}
+function fmtNum(v) {
+  if (v === null || v === undefined || isNaN(v)) return '';
+  if (v >= 100000000) return (v/100000000).toFixed(2) + '亿';
+  if (v >= 10000) return (v/10000).toFixed(1) + '万';
+  return v.toLocaleString();
+}
+// 粉丝趋势
+const trendDates = ["2026-08-13", "2026-08-14", "2026-08-17"];
+const trendFollowers = [562626, 562805, 563418];
+new Chart(document.getElementById('fanChart'), {
+  type: 'line',
+  data: {
+    labels: trendDates,
+    datasets: [{
+      label: '粉丝数',
+      data: trendFollowers,
+      borderColor: '#FB7299',
+      backgroundColor: 'rgba(251,114,153,0.12)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 3,
+      spanGaps: true,
+      pointBackgroundColor: '#FB7299',
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 10, weight: '600' }, color: '#FB7299',
+        formatter: v => fmtNum(v)
+      },
+      tooltip: { callbacks: { label: ctx => '粉丝数: ' + ctx.parsed.y.toLocaleString() } }
+    },
+    scales: {
+      y: { beginAtZero: false, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      x: { ticks: { maxTicksLimit: 15 } }
+    }
+  }
+});
+
+// 每日播放量增长（柱状=日增量，折线=累计播放）
+const trendViews = [25019660, 25035688, 25097214];
+const trendDaily = [null, 16028, 61526];
+new Chart(document.getElementById('viewChart'), {
+  data: {
+    labels: trendDates,
+    datasets: [
+      {
+        type: 'bar',
+        label: '当日新增播放',
+        data: trendDaily,
+        backgroundColor: 'rgba(0,174,236,0.55)',
+        borderRadius: 3,
+        yAxisID: 'y1',
+        order: 2,
+      },
+      {
+        type: 'line',
+        label: '累计播放量',
+        data: trendViews,
+        borderColor: '#FB7299',
+        backgroundColor: 'rgba(251,114,153,0.10)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 3,
+        spanGaps: true,
+        yAxisID: 'y',
+        order: 1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => fmtNum(v)
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString()
+        }
+      }
+    },
+    scales: {
+      y: { position: 'left', ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      x: { ticks: { maxTicksLimit: 15 } }
+    }
+  }
+});
+
+// 近7日播放趋势（创作中心官方按天增量，近7日高亮）
+const vtDates = ["2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16"];
+const vtPlays = [25633, 30386, 28317, 25753, 23439, 21754, 20783];
+const vtColors = 'rgba(251,114,153,0.78)';
+new Chart(document.getElementById('viewTrendChart'), {
+  type: 'bar',
+  data: {
+    labels: vtDates,
+    datasets: [{
+      label: '每日播放增量',
+      data: vtPlays,
+      backgroundColor: vtColors,
+      borderRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 11, weight: '700' }, color: '#F25D8E',
+        formatter: v => fmtNum(v)
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => '播放 ' + (ctx.parsed.y ?? 0).toLocaleString()
+        }
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      x: { ticks: { maxTicksLimit: 15 } }
+    }
+  }
+});
+
+// 重点课程视频趋势（播放/点赞/收藏）
+const coursePlay = [599413, 609129, 645552];
+const courseLike = [15005, 15128, 15614];
+const courseFav = [24656, 24886, 25779];
+new Chart(document.getElementById('courseChart'), {
+  type: 'line',
+  data: {
+    labels: trendDates,
+    datasets: [
+      { label: '播放量', data: coursePlay, borderColor: '#FB7299', backgroundColor: 'rgba(251,114,153,0.12)', fill: true, tension: 0.3, pointRadius: 3, spanGaps: true },
+      { label: '点赞', data: courseLike, borderColor: '#FAC64B', tension: 0.3, pointRadius: 3, spanGaps: true },
+      { label: '收藏', data: courseFav, borderColor: '#00AEEC', tension: 0.3, pointRadius: 3, spanGaps: true },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => fmtNum(v)
+      },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ?? 0).toLocaleString() } }
+    },
+    scales: {
+      y: { ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      x: { ticks: { maxTicksLimit: 15 } }
+    }
+  }
+});
+
+// 课程视频近7日播放量（创作中心单视频官方按天增量）
+const cvtDates = ["2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16"];
+const cvtPlays = [15808, 20281, 18805, 16431, 13247, 12398, 12178];
+new Chart(document.getElementById('courseViewTrendChart'), {
+  type: 'bar',
+  data: {
+    labels: cvtDates,
+    datasets: [{
+      label: '每日播放增量',
+      data: cvtPlays,
+      backgroundColor: 'rgba(251,114,153,0.78)',
+      borderRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 11, weight: '700' }, color: '#F25D8E',
+        formatter: v => fmtNum(v)
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => '播放 ' + (ctx.parsed.y ?? 0).toLocaleString()
+        }
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => v >= 10000 ? (v/10000).toFixed(1)+'万' : v } },
+      x: { ticks: { maxTicksLimit: 7 } }
+    }
+  }
+});
+
+// 付费课程收益趋势（柱状=本月销售额，折线=近7日销售额）
+const courseIncDates = ["2026-08-13", "2026-08-14", "2026-08-17"];
+const courseIncMonth = [10518.3, 10737.6, 11973.4];
+const courseIncWeek = [5149.9, 5229.5, 2809.7];
+new Chart(document.getElementById('courseIncomeChart'), {
+  data: {
+    labels: courseIncDates,
+    datasets: [
+      {
+        type: 'bar',
+        label: '本月销售额(元)',
+        data: courseIncMonth,
+        backgroundColor: 'rgba(250,198,75,0.70)',
+        borderRadius: 3,
+        order: 2,
+      },
+      {
+        type: 'line',
+        label: '近7日销售额(元)',
+        data: courseIncWeek,
+        borderColor: '#3d6dcc',
+        backgroundColor: 'rgba(61,109,204,0.08)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 3,
+        spanGaps: true,
+        order: 1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#3d6dcc',
+        formatter: v => v == null ? '' : '¥' + Math.round(v).toLocaleString()
+      }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '¥' + v.toLocaleString() } },
+      x: { ticks: { maxTicksLimit: 15 } }
+    }
+  }
+});
+
+// 互动率
+const engLabels = ["C语言程序设计从入门到进...", "C语言从入门到精通（鹏哥...", "C语言从入门到进阶（C语...", "VS2022安装使用教程...", "ACM蓝桥杯算法课程竞赛...", "C语言程序设计从入门到进...", "gitee(码云)的注册...", "Dev C++下载安装和...", "谭浩强C语言程序设计第五...", "鹏哥带你刷130道C语言..."];
+const engLike = [1.93, 1.51, 2.02, 2.34, 0.98, 2.42, 2.1, 2.23, 1.78, 2.14];
+const engCoin = [1.63, 1.4, 2.14, 1.25, 0.71, 1.71, 1.57, 1.29, 1.38, 1.31];
+const engFav = [3.28, 2.74, 3.2, 2.03, 2.52, 3.99, 3.6, 2.52, 4.62, 5.73];
+const engComment = [0.17, 0.19, 0.24, 0.3, 0.15, 0.76, 0.26, 0.23, 0.11, 0.08];
+new Chart(document.getElementById('engChart'), {
+  type: 'bar',
+  data: {
+    labels: engLabels,
+    datasets: [
+      { label: '点赞率', data: engLike, backgroundColor: '#FB7299', borderRadius: 3 },
+      { label: '投币率', data: engCoin, backgroundColor: '#FAC64B', borderRadius: 3 },
+      { label: '收藏率', data: engFav, backgroundColor: '#00AEEC', borderRadius: 3 },
+      { label: '评论率', data: engComment, backgroundColor: '#7ED685', borderRadius: 3 },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      datalabels: {
+        display: 'auto', anchor: 'end', align: 'top',
+        font: { size: 9, weight: '600' }, color: '#61666d',
+        formatter: v => v + '%'
+      }
+    },
+    scales: { y: { ticks: { callback: v => v + '%' } } }
+  }
+});
+</script>
+</body>
+</html>
