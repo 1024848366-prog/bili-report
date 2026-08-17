@@ -100,12 +100,12 @@
     <div class="card">
       <div class="label">粉丝数</div>
       <div class="value">56.3万</div>
-      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+      <div class="badge-row"><span class="badge badge-up">▲ 51</span></div>
     </div>
     <div class="card">
       <div class="label">关注数 <span class="tag">本账号关注他人</span></div>
       <div class="value">170<span class="unit"> 人</span></div>
-      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+      <div class="badge-row"><span class="badge badge-zero">— 0</span></div>
     </div>
     <div class="card">
       <div class="label">累计播放量</div>
@@ -126,7 +126,7 @@
 
   <!-- 粉丝增长趋势 -->
   <div class="section">
-    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势 <span class="tag">每日新增粉丝 · 按快照日差</span></h2>
+    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势 <span class="tag">每日新增粉丝 · 官方口径</span></h2>
     <div class="chart-wrap">
       <canvas id="fanChart"></canvas>
     </div>
@@ -139,7 +139,7 @@
       <canvas id="viewChart"></canvas>
     </div>
     <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
-      柱状图为每日新增播放量（创作中心官方按天口径，至昨日），折线为账号累计播放量。今日官方增量次日更新。
+      柱状图为每日新增播放量（创作中心官方按天口径，至昨日；今日为实测累计差值估算，官方次日更新后修正），折线为账号累计播放量（回填日按官方每日增量反推补全）。
     </div>
   </div>
 
@@ -550,7 +550,7 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 14:27:48</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 14:49:59</div>
 </div>
 
 <script>
@@ -564,9 +564,9 @@ function fmtNum(v) {
   if (v >= 10000) return (v/10000).toFixed(1) + '万';
   return v.toLocaleString();
 }
-// 粉丝趋势（每日新增粉丝）
+// 粉丝趋势（每日新增粉丝：官方口径到昨日，今日为快照日差）
 const trendDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17"];
-const trendFanDaily = [null, 179, 295, 284, 51];
+const trendFanDaily = [352, 297, 295, 284, 51];
 new Chart(document.getElementById('fanChart'), {
   type: 'bar',
   data: {
@@ -597,9 +597,9 @@ new Chart(document.getElementById('fanChart'), {
   }
 });
 
-// 每日播放量增长（柱状=官方每日增量，折线=累计播放）
-const trendViews = [25019660, 25035688, null, null, 25099123];
-const trendDaily = [25753, 23439, 21754, 20783, null];
+// 每日播放量增长（柱状=每日新增播放，折线=累计播放，回填日按官方增量反推）
+const trendViews = [25019660, 25035688, 25057442, 25078225, 25099123];
+const trendDaily = [25753, 23439, 21754, 20783, 20898];
 new Chart(document.getElementById('viewChart'), {
   data: {
     labels: trendDates,
@@ -622,7 +622,7 @@ new Chart(document.getElementById('viewChart'), {
         fill: true,
         tension: 0.3,
         pointRadius: 3,
-        spanGaps: true,
+        spanGaps: false,
         yAxisID: 'y',
         order: 1,
       }
