@@ -100,17 +100,17 @@
     <div class="card">
       <div class="label">粉丝数</div>
       <div class="value">56.3万</div>
-      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+      <div class="badge-row"><span class="badge badge-up">▲ 47</span></div>
     </div>
     <div class="card">
       <div class="label">关注数 <span class="tag">本账号关注他人</span></div>
       <div class="value">170<span class="unit"> 人</span></div>
-      <div class="badge-row"><span class="badge badge-na">首次采集</span></div>
+      <div class="badge-row"><span class="badge badge-zero">— 0</span></div>
     </div>
     <div class="card">
       <div class="label">累计播放量</div>
-      <div class="value">2509.7万</div>
-      <div class="badge-row"><span class="badge badge-up">▲ 2509.7万</span></div>
+      <div class="value">2509.9万</div>
+      <div class="badge-row"><span class="badge badge-up">▲ 2509.9万</span></div>
     </div>
     <div class="card">
       <div class="label">累计获赞</div>
@@ -126,7 +126,7 @@
 
   <!-- 粉丝增长趋势 -->
   <div class="section">
-    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势（近3天）</h2>
+    <h2><span class="sec-num">1、</span>📈 粉丝增长趋势（近5天）</h2>
     <div class="chart-wrap">
       <canvas id="fanChart"></canvas>
     </div>
@@ -134,12 +134,12 @@
 
   <!-- 每日播放量增长 -->
   <div class="section">
-    <h2><span class="sec-num">2、</span>▶️ 每日播放量增长（近3天）</h2>
+    <h2><span class="sec-num">2、</span>▶️ 每日播放量增长（近5天）</h2>
     <div class="chart-wrap" style="height:340px;">
       <canvas id="viewChart"></canvas>
     </div>
     <div style="margin-top:14px;font-size:13px;color:var(--text-sub);">
-      柱状图为当日新增播放量，折线为账号累计播放量。今日新增播放 <b>6.2万</b>。
+      柱状图为当日新增播放量，折线为账号累计播放量。今日新增播放 <b>2509.9万</b>。
     </div>
   </div>
 
@@ -183,17 +183,17 @@
       <div class="card">
         <div class="label">课程播放量</div>
         <div class="value">64.6万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 3.6万</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 3.7万</span></div>
       </div>
       <div class="card">
         <div class="label">课程点赞</div>
         <div class="value">1.6万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 486</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 502</span></div>
       </div>
       <div class="card">
         <div class="label">课程收藏</div>
         <div class="value">2.6万</div>
-        <div class="badge-row"><span class="badge badge-up">▲ 893</span></div>
+        <div class="badge-row"><span class="badge badge-up">▲ 913</span></div>
       </div>
       <div class="card">
         <div class="label">互动率</div>
@@ -469,7 +469,7 @@
           <td class="rank">5</td>
           <td class="title"><a href="https://www.bilibili.com/video/BV1Wx2TBrEEp" target="_blank">ACM蓝桥杯算法课程竞赛课程从入门到获奖ACM竞赛怎么准备蓝桥杯C语言ACM校赛</a></td>
           <td class="num">77.0万</td>
-          <td class="num">7,587</td>
+          <td class="num">7,589</td>
           <td class="num">5,441</td>
           <td class="num">1.9万</td>
           <td class="num">2,484</td>
@@ -483,8 +483,8 @@
           <td class="num">1.6万</td>
           <td class="num">1.1万</td>
           <td class="num">2.6万</td>
-          <td class="num">2,115</td>
-          <td class="num">4,891</td>
+          <td class="num">2,119</td>
+          <td class="num">4,893</td>
           <td class="num date">2026-06-23</td>
         </tr>
         <tr>
@@ -553,7 +553,7 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 12:26:11</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-17 14:15:18</div>
 </div>
 
 <script>
@@ -568,8 +568,8 @@ function fmtNum(v) {
   return v.toLocaleString();
 }
 // 粉丝趋势
-const trendDates = ["2026-08-13", "2026-08-14", "2026-08-17"];
-const trendFollowers = [562626, 562805, 563418];
+const trendDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17"];
+const trendFollowers = [562626, 562805, 563100, 563384, 563431];
 new Chart(document.getElementById('fanChart'), {
   type: 'line',
   data: {
@@ -606,8 +606,8 @@ new Chart(document.getElementById('fanChart'), {
 });
 
 // 每日播放量增长（柱状=日增量，折线=累计播放）
-const trendViews = [25019660, 25035688, 25097214];
-const trendDaily = [null, 16028, 61526];
+const trendViews = [25019660, 25035688, 0, 0, 25098710];
+const trendDaily = [null, 16028, 0, 0, 25098710];
 new Chart(document.getElementById('viewChart'), {
   data: {
     labels: trendDates,
@@ -699,9 +699,9 @@ new Chart(document.getElementById('viewTrendChart'), {
 });
 
 // 重点课程视频趋势（播放/点赞/收藏）
-const coursePlay = [599413, 609129, 645552];
-const courseLike = [15005, 15128, 15614];
-const courseFav = [24656, 24886, 25779];
+const coursePlay = [599413, 609129, null, null, 646473];
+const courseLike = [15005, 15128, null, null, 15630];
+const courseFav = [24656, 24886, null, null, 25799];
 new Chart(document.getElementById('courseChart'), {
   type: 'line',
   data: {
@@ -769,9 +769,9 @@ new Chart(document.getElementById('courseViewTrendChart'), {
 });
 
 // 付费课程收益趋势（柱状=本月销售额，折线=近7日销售额）
-const courseIncDates = ["2026-08-13", "2026-08-14", "2026-08-17"];
-const courseIncMonth = [10518.3, 10737.6, 11973.4];
-const courseIncWeek = [5149.9, 5229.5, 2809.7];
+const courseIncDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17"];
+const courseIncMonth = [10518.3, 10737.6, 11315.5, 11973.4, 11973.4];
+const courseIncWeek = [5149.9, 5229.5, 4989.9, 4990.1, 2809.7];
 new Chart(document.getElementById('courseIncomeChart'), {
   data: {
     labels: courseIncDates,
