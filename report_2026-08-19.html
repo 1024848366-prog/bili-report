@@ -550,7 +550,7 @@
     </div>
   </div>
 
-  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-19 12:23:56</div>
+  <div class="footer">报告由自动化脚本生成 · 数据来源：B站公开API · 生成时间 2026-08-19 12:30:26</div>
 </div>
 
 <script>
@@ -564,9 +564,9 @@ function fmtNum(v) {
   if (v >= 10000) return (v/10000).toFixed(1) + '万';
   return v.toLocaleString();
 }
-// 粉丝趋势（每日新增粉丝：官方口径到昨日，今日为快照日差）
-const trendDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17", "2026-08-18", "2026-08-19"];
-const trendFanDaily = [352, 297, 295, 284, 331, 408, 294];
+// 粉丝趋势（每日新增粉丝：仅官方口径，到昨日）
+const trendDates = ["2026-08-13", "2026-08-14", "2026-08-15", "2026-08-16", "2026-08-17", "2026-08-18"];
+const trendFanDaily = [352, 297, 295, 284, 331, 408];
 new Chart(document.getElementById('fanChart'), {
   type: 'bar',
   data: {
@@ -597,9 +597,9 @@ new Chart(document.getElementById('fanChart'), {
   }
 });
 
-// 每日播放量增长（柱状=每日新增播放，折线=累计播放，回填日按官方增量反推）
-const trendViews = [25019660, 25035688, 25057442, 25078225, 25099123, 25126316, 25158134];
-const trendDaily = [25753, 23439, 21754, 20783, 25795, 33834, 31818];
+// 每日播放量增长（柱状=每日新增播放，折线=累计播放，仅官方口径到昨日）
+const trendViews = [25019660, 25035688, 25057442, 25078225, 25099123, 25126316];
+const trendDaily = [25753, 23439, 21754, 20783, 25795, 33834];
 new Chart(document.getElementById('viewChart'), {
   data: {
     labels: trendDates,
